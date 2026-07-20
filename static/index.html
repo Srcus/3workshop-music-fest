@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三车间 · 群友破冰站 | 8.1 沈阳见</title>
+<style>
+/* ========== Reset & Base ========== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0a0a0c;--bg-card:#141418;--bg-input:#1c1c22;--border:#2a2a35;
+  --text:#c8c8d0;--text-dim:#6a6a78;
+  --orange:#ff6a1a;--red:#ff1a4a;--yellow:#ffc800;--cyan:#00e5ff;--green:#00e676;
+  --accent:#ff4d00;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;overflow-x:hidden;
+}
+
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.006) 2px,rgba(255,255,255,0.006) 4px),
+    radial-gradient(ellipse at 50% 0%,rgba(255,74,0,0.05) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+.container{max-width:880px;margin:0 auto;padding:20px;position:relative;z-index:1}
+
+/* ========== Hero ========== */
+.hero{text-align:center;padding:50px 20px 24px}
+.hero-badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:3px;padding:5px 14px;border-radius:2px;margin-bottom:16px}
+.hero h1{font-size:clamp(26px,5vw,44px);font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,var(--orange),var(--red),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+.hero .sub{font-size:15px;color:var(--text-dim);letter-spacing:1px;margin-bottom:24px}
+
+/* Countdown */
+.cd{display:flex;justify-content:center;gap:12px;margin-bottom:30px}
+.cd-item{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:14px 8px;min-width:64px;text-align:center;position:relative;overflow:hidden}
+.cd-item::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--orange);box-shadow:0 0 15px rgba(255,106,26,.4)}
+.cd-item .n{font-size:32px;font-weight:900;color:var(--orange);font-variant-numeric:tabular-nums;line-height:1}
+.cd-item .l{font-size:11px;color:var(--text-dim);margin-top:4px;letter-spacing:2px}
+.cd-sep{font-size:24px;color:var(--orange);align-self:center;opacity:.5;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ========== Info ========== */
+.info-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:24px}
+.info-card h3{font-size:13px;color:var(--orange);letter-spacing:3px;margin-bottom:14px}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:13px}
+.info-grid .it{color:var(--text-dim)}
+.info-grid .it strong{display:block;color:var(--text);font-weight:600;margin-bottom:2px}
+
+.day-tabs{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.day-tab{background:var(--bg-input);border:1px solid var(--border);color:var(--text-dim);padding:7px 14px;border-radius:6px;cursor:pointer;font-size:13px;transition:all .2s}
+.day-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.day-tab:hover:not(.active){border-color:var(--accent);color:var(--text)}
+.lineup{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.lineup .tag{background:var(--bg-input);border:1px solid var(--border);color:var(--text);padding:3px 10px;border-radius:20px;font-size:12px}
+
+/* ========== Section Common ========== */
+.sec{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.sec-hd .ico{font-size:22px}
+.sec-hd h2{font-size:18px;font-weight:800}
+.sec-hd .badge{margin-left:auto;background:var(--bg-input);color:var(--text-dim);padding:2px 10px;border-radius:12px;font-size:12px}
+.sec-desc{font-size:13px;color:var(--text-dim);margin-bottom:16px;line-height:1.5}
+
+/* ========== Form ========== */
+.f-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.f-row input,.f-row textarea,.f-row select{
+  background:var(--bg-input);border:1px solid var(--border);color:var(--text);
+  padding:10px 12px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;
+  transition:border .2s;flex:1;min-width:100px;
+}
+.f-row input:focus,.f-row textarea:focus,.f-row select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,77,0,.08)}
+.f-row textarea{resize:vertical;min-height:56px}
+
+.btn{background:var(--accent);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn:hover{background:#ff6620;box-shadow:0 0 18px rgba(255,106,26,.4);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
+
+/* ========== Profile Cards ========== */
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;max-height:600px;overflow-y:auto;padding-right:4px}
+.profile-grid::-webkit-scrollbar{width:4px}
+.profile-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.p-card{background:var(--bg-input);border-radius:10px;padding:16px;border-left:3px solid var(--accent);position:relative}
+.p-card .p-name{font-weight:800;font-size:15px;color:var(--orange)}
+.p-card .p-city{font-size:12px;color:var(--text-dim);margin-left:6px}
+.p-card .p-bio{margin-top:8px;font-size:13px;line-height:1.5;font-style:italic;color:var(--text)}
+.p-card .p-vibe{margin-top:8px;display:inline-block;background:rgba(255,106,26,.15);color:var(--orange);font-size:11px;padding:2px 8px;border-radius:10px}
+.p-card .p-bands{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.p-card .p-band{font-size:11px;background:var(--bg-card);color:var(--cyan);padding:2px 8px;border-radius:8px}
+.p-card .p-looking{margin-top:8px;font-size:12px;color:var(--green)}
+.p-card .p-contact{margin-top:6px;font-size:11px;color:var(--text-dim)}
+.p-card .p-del{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:14px;opacity:.4;transition:.2s}
+.p-card .p-del:hover{opacity:1;color:var(--red)}
+
+/* ========== Tribe ========== */
+.tribe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.tribe-day-label{grid-column:1/-1;font-size:13px;color:var(--text-dim);letter-spacing:2px;padding-top:8px;margin-top:4px;border-top:1px solid var(--border)}
+.tribe-day-label:first-child{border-top:none;margin-top:0;padding-top:0}
+.tribe-card{background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.tribe-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tribe-card.joined{border-color:var(--orange);background:rgba(255,106,26,.08)}
+.tribe-card .t-band{font-weight:800;font-size:14px;margin-bottom:6px}
+.tribe-card .t-count{font-size:12px;color:var(--text-dim)}
+.tribe-card .t-count span{color:var(--orange);font-weight:700}
+.tribe-card .t-members{margin-top:6px;font-size:11px;color:var(--text-dim);max-height:40px;overflow:hidden}
+.tribe-card .t-join{display:inline-block;margin-top:8px;font-size:12px;color:var(--orange);font-weight:700;border:1px solid var(--orange);padding:3px 14px;border-radius:12px;transition:.2s}
+.tribe-card .t-join:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.tribe-card.joined .t-join{background:var(--bg-card);border-color:var(--border);color:var(--text-dim)}
+.tribe-card.joined .t-join:hover{background:var(--red);border-color:var(--red);color:#fff}
+
+/* ========== Hangout ========== */
+.h-list{display:flex;flex-direction:column;gap:10px;max-height:500px;overflow-y:auto;padding-right:4px}
+.h-list::-webkit-scrollbar{width:4px}
+.h-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.h-card{background:var(--bg-input);border-radius:10px;padding:14px 16px}
+.h-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.h-type{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:1px}
+.h-type.drink{background:rgba(255,106,26,.2);color:var(--orange)}
+.h-type.eat{background:rgba(0,229,118,.15);color:var(--green)}
+.h-type.mosh{background:rgba(255,26,74,.15);color:var(--red)}
+.h-type.photo{background:rgba(0,229,255,.15);color:var(--cyan)}
+.h-type.car{background:rgba(255,200,0,.15);color:var(--yellow)}
+.h-type.other{background:rgba(106,106,120,.2);color:var(--text-dim)}
+.h-card .h-name{font-weight:700;font-size:14px}
+.h-card .h-when{font-size:12px;color:var(--yellow);margin-left:auto}
+.h-card .h-detail{font-size:14px;line-height:1.5}
+.h-card .h-contact{margin-top:6px;font-size:12px;color:var(--green)}
+
+/* ========== Song list (精简) ========== */
+.s-list{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto;padding-right:4px}
+.s-list::-webkit-scrollbar{width:4px}
+.s-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.s-card{background:var(--bg-input);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.s-card .s-rank{font-size:16px;font-weight:900;color:var(--yellow);min-width:26px;text-align:center}
+.s-card .s-info{flex:1;min-width:0}
+.s-card .s-title{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-card .s-meta{font-size:11px;color:var(--text-dim);margin-top:1px}
+.s-card .s-votes{font-weight:700;font-size:13px;color:var(--orange);min-width:36px;text-align:center}
+.s-card .v-btn{background:transparent;border:1px solid var(--border);color:var(--orange);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;transition:.2s;white-space:nowrap}
+.s-card .v-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.s-card .v-btn.voted{background:var(--accent);border-color:var(--accent);color:#fff;pointer-events:none}
+
+/* ========== Guide ========== */
+.guide-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.guide-list li{padding:8px 0;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.guide-num{background:var(--accent);color:#fff;min-width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* ========== Empty ========== */
+.empty{text-align:center;padding:36px 20px;color:var(--text-dim)}
+.empty .e-ico{font-size:36px;margin-bottom:8px}
+.empty .e-text{font-size:14px}
+
+/* ========== Toast ========== */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--bg-card);border:1px solid var(--accent);color:var(--text);padding:10px 20px;border-radius:8px;font-size:13px;z-index:999;animation:ti .3s ease,to .3s ease 2.5s forwards;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.toast.err{border-color:var(--red)}
+@keyframes ti{from{opacity:0;transform:translateX(-50%) translateY(-16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes to{from{opacity:1}to{opacity:0;transform:translateX(-50%) translateY(-16px)}}
+
+/* ========== Footer ========== */
+.footer{text-align:center;padding:36px 20px;color:var(--text-dim);font-size:12px;letter-spacing:1px}
+.footer .gear{display:inline-block;animation:spin 10s linear infinite;font-size:18px;margin-bottom:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ========== Responsive ========== */
+@media(max-width:600px){
+  .container{padding:10px}
+  .hero{padding:36px 10px 16px}
+  .cd{gap:6px}
+  .cd-item{padding:10px 4px;min-width:50px}
+  .cd-item .n{font-size:24px}
+  .sec{padding:18px 14px}
+  .profile-grid{grid-template-columns:1fr}
+  .tribe-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+}
+
+/* ========== Band select ========== */
+.band-chips{display:flex;flex-wrap:wrap;gap:4px}
+.band-chip{font-size:12px;background:var(--bg-input);border:1px solid var(--border);color:var(--text-dim);padding:4px 10px;border-radius:14px;cursor:pointer;transition:.2s;user-select:none}
+.band-chip.selected{background:rgba(0,229,255,.15);border-color:var(--cyan);color:var(--cyan)}
+
+/* ========== Vibe select ========== */
+.vibe-chips{display:flex;flex-wrap:wrap;gap:6px}
+.vibe-chip{font-size:12px;background:var(--bg-input);border:1px solid var(--border);color:var(--text-dim);padding:5px 12px;border-radius:14px;cursor:pointer;transition:.2s;user-select:none}
+.vibe-chip.selected{background:rgba(255,106,26,.15);border-color:var(--orange);color:var(--orange)}
+
+/* ========== Mode indicator ========== */
+.mode-bar{text-align:center;font-size:11px;padding:4px;margin-bottom:4px}
+.mode-bar span{padding:2px 10px;border-radius:10px}
+.mode-bar .shared{background:rgba(0,229,118,.12);color:var(--green)}
+.mode-bar .local{background:var(--bg-input);color:var(--text-dim)}
+
+/* ========== Map ========== */
+.map-wrap{position:relative}
+#map{height:420px;border-radius:10px;border:1px solid var(--border);z-index:1}
+.map-ctrls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.map-ctrl{background:var(--bg-input);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:8px;font-size:12px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:4px}
+.map-ctrl:hover{border-color:var(--accent)}
+.map-ctrl.active{background:rgba(0,229,118,.15);border-color:var(--green);color:var(--green)}
+.map-ctrl.locating{animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.map-legend{display:flex;gap:14px;margin-top:8px;font-size:11px;color:var(--text-dim);flex-wrap:wrap}
+.map-legend span{display:flex;align-items:center;gap:4px}
+.map-legend .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.add-marker-form{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.add-marker-form input{background:var(--bg-input);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:12px;outline:none;flex:1;min-width:100px}
+.add-marker-form input:focus{border-color:var(--accent)}
+@media(max-width:600px){#map{height:300px}}
+</style>
+</head>
+<body>
+
+<div class="mode-bar"><span id="mode-ui" class="shared">🔗 共享模式</span></div>
+
+<div class="container">
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-badge">INDUSTRIAL ROCK · 2026</div>
+  <h1>三车间 · 沈阳见</h1>
+  <p class="sub">群友破冰站 — 先认识，再一起燥</p>
+  <div class="cd" id="cd">
+    <div class="cd-item"><div class="n" id="cd-d">00</div><div class="l">天</div></div>
+    <div class="cd-sep">:</div><div class="cd-item"><div class="n" id="cd-h">00</div><div class="l">时</div></div>
+    <div class="cd-sep">:</div><div class="cd-item"><div class="n" id="cd-m">00</div><div class="l">分</div></div>
+    <div class="cd-sep">:</div><div class="cd-item"><div class="n" id="cd-s">00</div><div class="l">秒</div></div>
+  </div>
+</section>
+
+<!-- ===== 信息 ===== -->
+<section class="info-card">
+  <h3>🎸 阵容 & 信息</h3>
+  <div class="info-grid">
+    <div class="it"><strong>时间</strong>8.1-8.2</div>
+    <div class="it"><strong>地点</strong>和平杯世界足球公园</div>
+    <div class="it"><strong>票价</strong>单日 ¥458 / 双日 ¥798</div>
+    <div class="it"><strong>地址</strong>和平区滨水路</div>
+  </div>
+  <div class="day-tabs">
+    <div class="day-tab active" data-d="1" onclick="swDay(1)">⚡ 8.1 摇滚之夜</div>
+    <div class="day-tab" data-d="2" onclick="swDay(2)">🎸 8.2 致青春</div>
+  </div>
+  <div class="lineup" id="lineup"></div>
+</section>
+
+<!-- ===== 地图 ===== -->
+<section class="sec" id="map-sec">
+  <div class="sec-hd">
+    <span class="ico">🗺️</span><h2>场地地图 & 碰头点</h2>
+  </div>
+  <p class="sec-desc">灰色标记 = 碰头点，红标 = 场地。点击地图任意位置可添加自定义碰头点。开启定位能看到你自己在哪。</p>
+  <div class="map-wrap">
+    <div id="map"></div>
+  </div>
+  <div class="map-ctrls">
+    <button class="map-ctrl" id="btn-locate" onclick="toggleLocate()">📍 显示我的位置</button>
+    <button class="map-ctrl" id="btn-center" onclick="centerVenue()">🎯 回到场地</button>
+    <button class="map-ctrl" onclick="clearCustomMarkers()">🗑️ 清除自定义标记</button>
+  </div>
+  <div class="map-legend">
+    <span><span class="dot" style="background:var(--red)"></span> 音乐节场地</span>
+    <span><span class="dot" style="background:#8a8a96"></span> 预设碰头点</span>
+    <span><span class="dot" style="background:var(--cyan)"></span> 自定义碰头点</span>
+    <span><span class="dot" style="background:var(--green)"></span> 你的位置</span>
+  </div>
+  <div class="add-marker-form">
+    <input id="mk-label" placeholder="碰头点名称（如：大门口左边）" maxlength="20">
+    <button class="btn btn-sm" onclick="addCustomMarker()">+ 添加碰头点</button>
+  </div>
+</section>
+
+<!-- ===== 群友名片墙 ===== -->
+<section class="sec" id="profiles">
+  <div class="sec-hd">
+    <span class="ico">🃏</span><h2>群友名片墙</h2>
+    <span class="badge" id="p-count">0 人</span>
+  </div>
+  <p class="sec-desc">创建你的音乐节名片，让大家认识你。找到喜欢同一支乐队的人，看看谁也在你的城市。</p>
+
+  <!-- 创建名片表单（默认收起） -->
+  <button class="btn btn-sm" onclick="toggleProfileForm()" style="margin-bottom:12px" id="pf-toggle-btn">+ 创建我的名片</button>
+  <div id="pf-form" style="display:none;margin-bottom:16px;background:var(--bg-input);border-radius:10px;padding:16px">
+    <div class="f-row">
+      <input id="pf-name" placeholder="昵称 *" maxlength="20" style="max-width:140px">
+      <input id="pf-city" placeholder="来自哪个城市" maxlength="15" style="max-width:150px">
+    </div>
+    <div class="f-row">
+      <input id="pf-bio" placeholder="一句话介绍自己（比如：东北酒量好/摇滚老炮/第一次音乐节）" maxlength="60">
+    </div>
+    <label style="font-size:13px;color:var(--text-dim);display:block;margin-bottom:6px">喜欢的乐队（可多选）：</label>
+    <div class="band-chips" id="pf-bands" style="margin-bottom:10px"></div>
+    <label style="font-size:13px;color:var(--text-dim);display:block;margin-bottom:6px">音乐节人格：</label>
+    <div class="vibe-chips" style="margin-bottom:10px">
+      <span class="vibe-chip" data-v="前排跳水战士" onclick="selVibe(this)">🤘 前排跳水战士</span>
+      <span class="vibe-chip" data-v="后排悠闲躺平" onclick="selVibe(this)">🧘 后排悠闲躺平</span>
+      <span class="vibe-chip" data-v="拍照打卡达人" onclick="selVibe(this)">📸 拍照打卡达人</span>
+      <span class="vibe-chip" data-v="社交到处串场" onclick="selVibe(this)">🗣️ 社交到处串场</span>
+      <span class="vibe-chip" data-v="安静听歌选手" onclick="selVibe(this)">🎧 安静听歌选手</span>
+    </div>
+    <div class="f-row">
+      <input id="pf-looking" placeholder="想找什么样的搭子？（选填）" maxlength="40" style="flex:2">
+      <input id="pf-contact" placeholder="联系方式（选填）" maxlength="40" style="flex:2">
+    </div>
+    <button class="btn btn-sm" onclick="createProfile()">发布名片</button>
+  </div>
+
+  <div class="profile-grid" id="p-list">
+    <div class="empty"><div class="e-ico">🃏</div><div class="e-text">还没有名片，来做第一张吧</div></div>
+  </div>
+</section>
+
+<!-- ===== 乐队阵营 ===== -->
+<section class="sec" id="tribes">
+  <div class="sec-hd">
+    <span class="ico">⚔️</span><h2>乐队阵营</h2>
+    <span class="badge" id="t-count">0 人已加入</span>
+  </div>
+  <p class="sec-desc">加入你喜欢的乐队阵营，看看群里谁和你品味一样。找到同好，现场一起冲！</p>
+  <div class="tribe-grid" id="t-list"></div>
+</section>
+
+<!-- ===== 约酒组局 ===== -->
+<section class="sec" id="hangouts">
+  <div class="sec-hd">
+    <span class="ico">🍻</span><h2>约酒 · 组局</h2>
+    <span class="badge" id="h-count">0 条</span>
+  </div>
+  <p class="sec-desc">想找人一起喝酒、吃饭、蹦前排？在这发个帖，看看谁能搭上。</p>
+  <div class="f-row">
+    <input id="h-name" placeholder="你的昵称" maxlength="20" style="max-width:130px">
+    <select id="h-type">
+      <option value="约酒">🍻 约酒</option>
+      <option value="约饭">🍜 约饭</option>
+      <option value="约前排蹦迪">🤘 约前排蹦迪</option>
+      <option value="约拍照">📸 约拍照</option>
+      <option value="约拼车">🚗 约拼车</option>
+      <option value="其他">💬 其他</option>
+    </select>
+    <input id="h-when" placeholder="什么时候？" maxlength="25" style="max-width:160px">
+  </div>
+  <div class="f-row">
+    <input id="h-detail" placeholder="详细说明..." maxlength="200" style="flex:3">
+    <input id="h-contact" placeholder="联系方式（选填）" maxlength="40" style="max-width:170px">
+    <button class="btn btn-sm" onclick="postHangout()">发布</button>
+  </div>
+  <div class="h-list" id="h-list">
+    <div class="empty"><div class="e-ico">🍻</div><div class="e-text">还没有局，来组第一个</div></div>
+  </div>
+</section>
+
+<!-- ===== 歌单许愿池 ===== -->
+<section class="sec" id="songs">
+  <div class="sec-hd">
+    <span class="ico">🎵</span><h2>歌单许愿池</h2>
+    <span class="badge" id="s-count">0 首</span>
+  </div>
+  <div class="f-row">
+    <input id="s-title" placeholder="歌名" maxlength="50" style="flex:2">
+    <input id="s-artist" placeholder="歌手" maxlength="30" style="flex:1">
+    <input id="s-by" placeholder="昵称" maxlength="20" style="max-width:120px">
+    <button class="btn btn-sm" onclick="postSong()">许愿</button>
+  </div>
+  <div class="s-list" id="s-list">
+    <div class="empty"><div class="e-ico">🎤</div><div class="e-text">许愿池空着，来许个愿</div></div>
+  </div>
+</section>
+
+<!-- ===== 攻略 ===== -->
+<section class="sec">
+  <div class="sec-hd"><span class="ico">📋</span><h2>音乐节小贴士</h2></div>
+  <ul class="guide-list">
+    <li><span class="guide-num">1</span>提前2小时到，穿舒服的鞋</li>
+    <li><span class="guide-num">2</span>带薄外套，晚上会凉</li>
+    <li><span class="guide-num">3</span>充电宝必带</li>
+    <li><span class="guide-num">4</span>帽子墨镜防晒</li>
+    <li><span class="guide-num">5</span>带坐垫/野餐垫</li>
+    <li><span class="guide-num">6</span>吃饱喝好再进场</li>
+    <li><span class="guide-num">7</span>提前约好群友碰头点</li>
+    <li><span class="guide-num">8</span>散场打车难，提前规划</li>
+    <li><span class="guide-num">9</span>享受音乐，注意安全</li>
+    <li><span class="guide-num">10</span>玩得开心！🤘</li>
+  </ul>
+</section>
+
+<footer class="footer">
+  <div class="gear">⚙️</div>
+  <p>三车间 · 群友破冰站</p>
+</footer>
+
+</div>
+
+<div id="toast-box"></div>
+
+<script>
+// ==================== 数据 ====================
+const LINEUP={1:["崔健","二手玫瑰","万能青年旅店","痛仰","梅卡德尔","黑豹乐队","九宝","椿乐队","石岩","虎啸春"],2:["罗大佑","老狼","逃跑计划","棱镜","夏日入侵企画","叶世荣","康姆士","刘忻&遗忘俱乐部","岛屿心情","丑橘出逃"]};
+const ALL_BANDS=[...LINEUP[1],...LINEUP[2]];
+const H_TYPE_CLASS={约酒:"drink",约饭:"eat","约前排蹦迪":"mosh",约拍照:"photo",约拼车:"car",其他:"other"};
+
+// ==================== 倒计时 ====================
+function tick(){
+  const t=new Date("2026-08-01T00:00:00+08:00").getTime(),n=Date.now(),d=Math.max(0,t-n);
+  document.getElementById("cd-d").textContent=String(Math.floor(d/864e5)).padStart(2,"0");
+  document.getElementById("cd-h").textContent=String(Math.floor(d%864e5/36e5)).padStart(2,"0");
+  document.getElementById("cd-m").textContent=String(Math.floor(d%36e5/6e4)).padStart(2,"0");
+  document.getElementById("cd-s").textContent=String(Math.floor(d%6e4/1e3)).padStart(2,"0");
+}
+tick();setInterval(tick,1000);
+
+// ==================== 阵容 ====================
+let curDay=1;
+function swDay(d){curDay=d;document.querySelectorAll(".day-tab").forEach(e=>e.classList.toggle("active",e.dataset.d==d));renderLineup();renderBandChips();}
+function renderLineup(){document.getElementById("lineup").innerHTML=LINEUP[curDay].map(a=>`<span class="tag">${a}</span>`).join("")}
+renderLineup();
+
+// ==================== Mode ====================
+let useApi=true;
+// API_BASE 会在部署后端后更新为实际地址
+let API_BASE="";
+function setMode(v){useApi=v;const e=document.getElementById("mode-ui");e.textContent=v?"🔗 共享模式":"💾 本地模式";e.className=v?"shared":"local"}
+function checkMode(){return useApi}
+
+// ==================== API / LS ====================
+const LS={get(k){try{return JSON.parse(localStorage.getItem("fest_"+k)||"null")}catch(e){return null}},set(k,v){try{localStorage.setItem("fest_"+k,JSON.stringify(v))}catch(e){}}};
+
+function nowStr(){const d=new Date();const p=n=>String(n).padStart(2,"0");return d.getMonth()+1+"-"+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes())}
+
+// 探测后端是否可达
+async function probeBackend(){
+  if(!API_BASE)return;
+  try{
+    const r=await fetch(API_BASE+"/api/health",{signal:AbortSignal.timeout(3000)});
+    if(r.ok){setMode(true);return true}
+  }catch(e){}
+  setMode(false);return false;
+}
+
+async function call(url,method,body){
+  if(!API_BASE){setMode(false);throw new Error("no backend")}
+  try{
+    const o={headers:{"Content-Type":"application/json"}};if(method)o.method=method;if(body)o.body=JSON.stringify(body);
+    const r=await fetch(API_BASE+url,o);if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||"error")}
+    return await r.json();
+  }catch(e){if(e.message.includes("Failed to fetch")||e.message.includes("NetworkError")){setMode(false)}throw e}
+}
+
+function toast(m,err){const e=document.createElement("div");e.className="toast"+(err?" err":"");e.textContent=m;document.getElementById("toast-box").appendChild(e);setTimeout(()=>e.remove(),3000)}
+
+// ==================== 名片墙 ====================
+let pfOpen=false;
+function toggleProfileForm(){pfOpen=!pfOpen;document.getElementById("pf-form").style.display=pfOpen?"block":"none";document.getElementById("pf-toggle-btn").textContent=pfOpen?"收起":"+ 创建我的名片";if(pfOpen)renderBandChips()}
+
+let selBands=[],selectedVibe="";
+function renderBandChips(){
+  document.getElementById("pf-bands").innerHTML=LINEUP[curDay].map(b=>`<span class="band-chip${selBands.includes(b)?" selected":""}" onclick="toggleBand('${escAttr(b)}',this)">${b}</span>`).join("")
+}
+function toggleBand(b,el){if(selBands.includes(b)){selBands=selBands.filter(x=>x!==b);el.classList.remove("selected")}else{selBands.push(b);el.classList.add("selected")}}
+function selVibe(el){document.querySelectorAll(".vibe-chip").forEach(e=>e.classList.remove("selected"));el.classList.add("selected");selectedVibe=el.dataset.v}
+
+function loadProfiles(){
+  if(!useApi){renderProfiles(LS.get("profiles")||[]);return}
+  call("/api/profiles").then(renderProfiles).catch(()=>renderProfiles(LS.get("profiles")||[]))
+}
+function renderProfiles(ps){
+  document.getElementById("p-count").textContent=ps.length+" 人";
+  const l=document.getElementById("p-list");
+  if(!ps.length){l.innerHTML='<div class="empty"><div class="e-ico">🃏</div><div class="e-text">还没有名片，来做第一张吧</div></div>';return}
+  l.innerHTML=ps.map(p=>`
+    <div class="p-card">
+      <button class="p-del" onclick="delProfile(${p.id})" title="删除">×</button>
+      <div><span class="p-name">${esc(p.name)}</span>${p.city?`<span class="p-city">📍 ${esc(p.city)}</span>`:""}</div>
+      ${p.bio?`<div class="p-bio">"${esc(p.bio)}"</div>`:""}
+      ${p.vibe?`<div class="p-vibe">${esc(p.vibe)}</div>`:""}
+      ${p.bands&&p.bands.length?`<div class="p-bands">${p.bands.map(b=>`<span class="p-band">${esc(b)}</span>`).join("")}</div>`:""}
+      ${p.looking?`<div class="p-looking">🔍 ${esc(p.looking)}</div>`:""}
+      ${p.contact?`<div class="p-contact">📞 ${esc(p.contact)}</div>`:""}
+    </div>
+  `).join("")
+}
+
+async function createProfile(){
+  const name=document.getElementById("pf-name").value.trim();
+  const city=document.getElementById("pf-city").value.trim();
+  const bio=document.getElementById("pf-bio").value.trim();
+  const looking=document.getElementById("pf-looking").value.trim();
+  const contact=document.getElementById("pf-contact").value.trim();
+  if(!name)return toast("至少写个名字吧",true);
+  const prof={id:Date.now(),name,city,bio,bands:selBands,vibe:selectedVibe,looking,contact,time:nowStr()};
+  try{
+    await call("/api/profiles","POST",{name,city,bio,bands:selBands,vibe:selectedVibe,looking,contact});
+    loadProfiles();
+  }catch(e){
+    const ps=LS.get("profiles")||[];ps.push(prof);LS.set("profiles",ps);renderProfiles(ps);toast("名片已保存 ✨")
+  }
+  // reset
+  document.getElementById("pf-name").value="";document.getElementById("pf-city").value="";
+  document.getElementById("pf-bio").value="";document.getElementById("pf-looking").value="";document.getElementById("pf-contact").value="";
+  selBands=[];selectedVibe="";renderBandChips();
+  document.querySelectorAll(".vibe-chip").forEach(e=>e.classList.remove("selected"));
+  toggleProfileForm();loadTribes(); // refresh tribes too
+}
+
+async function delProfile(id){
+  try{await call("/api/profiles/"+id,"DELETE");loadProfiles()}catch(e){
+    const ps=LS.get("profiles")||[];LS.set("profiles",ps.filter(p=>p.id!==id));renderProfiles(LS.get("profiles")||[]);toast("已删除");loadTribes()
+  }
+}
+
+// ==================== 乐队阵营 ====================
+let myTribes=LS.get("myTribes")||[];
+function loadTribes(){
+  if(!useApi){renderTribesLocal();return}
+  call("/api/tribes").then(data=>{renderTribes(data)}).catch(()=>renderTribesLocal())
+}
+function renderTribes(data){
+  let total=0;let html="";
+  [["day1","⚡ 8.1"],["day2","🎸 8.2"]].forEach(([dk,dl])=>{
+    html+=`<div class="tribe-day-label">${dl}</div>`;
+    LINEUP[dk==="day1"?1:2].forEach(b=>{
+      const t=data[b]||{members:[],count:0};
+      total+=t.count;
+      const joined=myTribes.includes(b);
+      html+=`<div class="tribe-card${joined?" joined":""}" onclick="${joined?`leaveTribe('${escAttr(b)}')`:`joinTribe('${escAttr(b)}')`}">
+        <div class="t-band">${b}</div>
+        <div class="t-count"><span>${t.count}</span> 人</div>
+        ${t.members.length?`<div class="t-members">${t.members.slice(0,5).map(m=>esc(m)).join("、")}${t.members.length>5?"等":""}</div>`:""}
+        <div class="t-join">${joined?"已加入 · 点击退出":"+ 加入阵营"}</div>
+      </div>`
+    })
+  });
+  document.getElementById("t-list").innerHTML=html;
+  document.getElementById("t-count").textContent=total+" 人已加入";
+}
+function renderTribesLocal(){
+  // local: count members from profiles' bands
+  const ps=LS.get("profiles")||[];
+  const counts={};ps.forEach(p=>{(p.bands||[]).forEach(b=>{counts[b]=(counts[b]||0)+1})});
+  let total=0;let html="";
+  [["day1","⚡ 8.1"],["day2","🎸 8.2"]].forEach(([dk,dl])=>{
+    html+=`<div class="tribe-day-label">${dl}</div>`;
+    LINEUP[dk==="day1"?1:2].forEach(b=>{
+      const c=counts[b]||0;total+=c;const joined=myTribes.includes(b);
+      html+=`<div class="tribe-card${joined?" joined":""}" onclick="${joined?`leaveTribe('${escAttr(b)}')`:`joinTribe('${escAttr(b)}')`}">
+        <div class="t-band">${b}</div><div class="t-count"><span>${c}</span> 人</div>
+        <div class="t-join">${joined?"已加入 · 点击退出":"+ 加入阵营"}</div>
+      </div>`
+    })
+  });
+  document.getElementById("t-list").innerHTML=html;
+  document.getElementById("t-count").textContent=total+" 人通过名片加入";
+}
+
+async function joinTribe(band){
+  const n=prompt("输入你的昵称加入「"+band+"」阵营：");if(!n)return;
+  try{
+    await call("/api/tribes/join","POST",{name:n.trim(),band});myTribes.push(band);LS.set("myTribes",myTribes);loadTribes();toast("加入 "+band+" 阵营！")
+  }catch(e){toast(e.message||"加入失败",true)}
+}
+async function leaveTribe(band){
+  const n=prompt("输入你的昵称退出「"+band+"」阵营：");if(!n)return;
+  try{
+    await call("/api/tribes/leave","POST",{name:n.trim(),band});myTribes=myTribes.filter(b=>b!==band);LS.set("myTribes",myTribes);loadTribes();toast("已退出")
+  }catch(e){myTribes=myTribes.filter(b=>b!==band);LS.set("myTribes",myTribes);loadTribes();toast("已退出")}
+}
+
+// ==================== 约酒组局 ====================
+function loadHangouts(){
+  if(!useApi){renderHangouts(LS.get("hangouts")||[]);return}
+  call("/api/hangouts").then(renderHangouts).catch(()=>renderHangouts(LS.get("hangouts")||[]))
+}
+function renderHangouts(hs){
+  document.getElementById("h-count").textContent=hs.length+" 条";
+  const l=document.getElementById("h-list");
+  if(!hs.length){l.innerHTML='<div class="empty"><div class="e-ico">🍻</div><div class="e-text">还没有局，来组第一个</div></div>';return}
+  l.innerHTML=hs.map(h=>`
+    <div class="h-card">
+      <div class="h-header">
+        <span class="h-type ${H_TYPE_CLASS[h.type]||"other"}">${h.type}</span>
+        <span class="h-name">${esc(h.name)}</span>
+        ${h.when?`<span class="h-when">${esc(h.when)}</span>`:""}
+      </div>
+      <div class="h-detail">${esc(h.detail)}</div>
+      ${h.contact?`<div class="h-contact">📞 ${esc(h.contact)}</div>`:""}
+    </div>
+  `).join("")
+}
+async function postHangout(){
+  const name=document.getElementById("h-name").value.trim();
+  const type=document.getElementById("h-type").value;
+  const when=document.getElementById("h-when").value.trim();
+  const detail=document.getElementById("h-detail").value.trim();
+  const contact=document.getElementById("h-contact").value.trim();
+  if(!name||!detail)return toast("昵称和内容不能为空",true);
+  const h={id:Date.now(),name,type,detail,when,contact,time:nowStr()};
+  try{
+    await call("/api/hangouts","POST",{name,type,detail,when,contact});
+    document.getElementById("h-detail").value="";document.getElementById("h-contact").value="";loadHangouts()
+  }catch(e){
+    const hs=LS.get("hangouts")||[];hs.unshift(h);if(hs.length>100)hs.length=100;LS.set("hangouts",hs);
+    document.getElementById("h-detail").value="";document.getElementById("h-contact").value="";renderHangouts(hs);toast("发布成功 ✨")
+  }
+}
+
+// ==================== 歌单 ====================
+function loadSongs(){
+  if(!useApi){renderSongs(LS.get("songs")||[]);return}
+  call("/api/songs").then(renderSongs).catch(()=>renderSongs(LS.get("songs")||[]))
+}
+function renderSongs(ss){
+  ss.sort((a,b)=>b.votes-a.votes);
+  document.getElementById("s-count").textContent=ss.length+" 首";
+  const l=document.getElementById("s-list");
+  if(!ss.length){l.innerHTML='<div class="empty"><div class="e-ico">🎤</div><div class="e-text">许愿池空着，来许个愿</div></div>';return}
+  l.innerHTML=ss.map((s,i)=>{const v=localStorage.getItem("voter_"+s.id)==="true";return`
+    <div class="s-card">
+      <div class="s-rank">${i<3?["🥇","🥈","🥉"][i]:"#"+(i+1)}</div>
+      <div class="s-info"><div class="s-title">${esc(s.title)}</div><div class="s-meta">${esc(s.artist||"?")} · ${esc(s.by)} · ${s.time}</div></div>
+      <div class="s-votes">${s.votes} 🔥</div>
+      <button class="v-btn ${v?"voted":""}" onclick="voteSong(${s.id},'${escAttr(s.title)}')">${v?"已投":"+1"}</button>
+    </div>`}).join("")
+}
+async function postSong(){
+  const t=document.getElementById("s-title").value.trim(),a=document.getElementById("s-artist").value.trim(),n=document.getElementById("s-by").value.trim();
+  if(!t||!n)return toast("歌名和昵称必填",true);
+  const sg={id:Date.now(),title:t,artist:a,by:n,votes:0,voters:[],time:nowStr()};
+  try{await call("/api/songs","POST",{title:t,artist:a,name:n});document.getElementById("s-title").value="";document.getElementById("s-artist").value="";loadSongs()}catch(e){
+    const ss=LS.get("songs")||[];if(ss.some(s=>s.title.trim()===t))return toast("已经在池子里了",true);ss.push(sg);LS.set("songs",ss);document.getElementById("s-title").value="";document.getElementById("s-artist").value="";renderSongs(ss);toast("许愿成功 ✨")
+  }
+}
+async function voteSong(id,title){
+  const v=prompt("输入昵称投票：");if(!v)return;
+  try{await call("/api/songs/"+id+"/vote","POST",{voter:v.trim()});localStorage.setItem("voter_"+id,"true");loadSongs();toast("已投《"+title+"》")}catch(e){
+    const ss=LS.get("songs")||[];const s=ss.find(s=>s.id===id);if(s){s.voters=s.voters||[];if(s.voters.includes(v.trim()))return toast("投过了",true);s.votes++;s.voters.push(v.trim());LS.set("songs",ss);localStorage.setItem("voter_"+id,"true");renderSongs(ss);toast("已投 ✨")}
+  }
+}
+
+// ==================== Utils ====================
+function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function escAttr(s){return s.replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
+
+// ==================== 地图 ====================
+// 和平杯世界足球公园 (approx: 41.771, 123.404)
+const VENUE=[41.771,123.404];
+let map,venueMarker,userMarker,locateActive=false,watchId=null;
+let customMarkers=[],customMarkerLayers=[];
+const MEETING_POINTS=[
+  {name:"主入口",lat:41.7720,lng:123.4032,desc:"滨水路正门，建议在这集合"},
+  {name:"主舞台前",lat:41.7712,lng:123.4043,desc:"靠前区域，蹦迪主力区"},
+  {name:"酒水区/休息区",lat:41.7706,lng:123.4038,desc:"中场休息喝一杯"},
+  {name:"厕所附近",lat:41.7715,lng:123.4050,desc:"散场也在这碰"},
+  {name:"后排草坪",lat:41.7708,lng:123.4048,desc:"躺着听歌，野餐垫区"},
+];
+
+let venueIcon,meetIcon,customIcon,userIcon;
+
+function initMap(){
+  if(!window.L||!document.getElementById("map"))return;
+  map=L.map("map",{attributionControl:false,zoomControl:false}).setView(VENUE,14);
+
+  // Icons
+  venueIcon=L.divIcon({className:"custom-icon",
+    html:'<div style="background:#ff1a4a;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid #fff;box-shadow:0 2px 12px rgba(255,26,74,.5)">🏭</div>',
+    iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-16]});
+  meetIcon=L.divIcon({className:"custom-icon",
+    html:'<div style="background:#8a8a96;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)">📍</div>',
+    iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-12]});
+  customIcon=L.divIcon({className:"custom-icon",
+    html:'<div style="background:#00e5ff;color:#000;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;box-shadow:0 2px 10px rgba(0,229,255,.4)">📍</div>',
+    iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-12]});
+  userIcon=L.divIcon({className:"custom-icon",
+    html:'<div style="background:#00e676;color:#000;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:3px solid #fff;box-shadow:0 2px 14px rgba(0,230,118,.6);animation:pulse-dot 2s ease infinite"><div style="width:8px;height:8px;background:#000;border-radius:50%"></div></div>',
+    iconSize:[24,24],iconAnchor:[12,12]});
+
+  var ps=document.createElement("style");
+  ps.textContent="@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.6)}50%{box-shadow:0 0 0 14px rgba(0,230,118,0)}}";
+  document.head.appendChild(ps);
+
+  L.control.zoom({position:"bottomright"}).addTo(map);
+  L.control.attribution({position:"bottomleft",prefix:""}).addTo(map);
+
+  // OpenStreetMap tiles
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    maxZoom:19,
+    attribution:'&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
+  }).addTo(map);
+
+  // Venue marker
+  venueMarker=L.marker(VENUE,{icon:venueIcon}).addTo(map)
+    .bindPopup("<b>和平杯世界足球公园</b><br>三车间工业摇滚音乐节<br>8.1-8.2 · 和平区滨水路");
+
+  // Meeting point markers
+  MEETING_POINTS.forEach(mp=>{
+    L.marker([mp.lat,mp.lng],{icon:meetIcon}).addTo(map)
+      .bindPopup(`<b>${mp.name}</b><br><span style="font-size:12px;color:#888">${mp.desc}</span>`);
+  });
+
+  // Click to add custom marker
+  map.on("click",function(e){
+    const label=document.getElementById("mk-label").value.trim();
+    if(!label){document.getElementById("mk-label").focus();toast("先输入碰头点名称，再点地图",true);return}
+    addCustomMarkerAt(e.latlng.lat,e.latlng.lng,label);
+    document.getElementById("mk-label").value="";
+  });
+
+  // Load custom markers from LS
+  customMarkers=LS.get("customMarkers")||[];
+  customMarkers.forEach(m=>{
+    const layer=L.marker([m.lat,m.lng],{icon:customIcon}).addTo(map)
+      .bindPopup(`<b>${esc(m.name)}</b><br><span style="font-size:11px;color:#888">自定义碰头点</span>`);
+    customMarkerLayers.push(layer);
+  });
+
+  setTimeout(()=>map.invalidateSize(),200);
+}
+
+function addCustomMarkerAt(lat,lng,name){
+  const mk={name,lat,lng,id:Date.now()};
+  customMarkers.push(mk);
+  LS.set("customMarkers",customMarkers);
+  if(map&&window.L){
+    const layer=L.marker([lat,lng],{icon:customIcon}).addTo(map)
+      .bindPopup(`<b>${esc(name)}</b><br><span style="font-size:11px;color:#888">自定义碰头点</span>`)
+      .openPopup();
+    customMarkerLayers.push(layer);
+  }
+  toast("碰头点「"+name+"」已添加");
+}
+
+function addCustomMarker(){
+  const label=document.getElementById("mk-label").value.trim();
+  if(!label)return toast("输入碰头点名称",true);
+  if(!map)return toast("地图还没加载好",true);
+  const c=map.getCenter();
+  addCustomMarkerAt(c.lat,c.lng,label);
+  document.getElementById("mk-label").value="";
+}
+
+function clearCustomMarkers(){
+  if(!customMarkers.length)return toast("没有自定义标记");
+  if(!confirm("确定清除所有自定义碰头点？"))return;
+  if(map){customMarkerLayers.forEach(l=>map.removeLayer(l))}
+  customMarkers=[];
+  customMarkerLayers=[];
+  LS.set("customMarkers",customMarkers);
+  toast("已清除");
+}
+
+function centerVenue(){if(map)map.setView(VENUE,15)}
+
+function toggleLocate(){
+  if(locateActive){stopLocate();return}
+  if(!navigator.geolocation){toast("浏览器不支持定位",true);return}
+  const btn=document.getElementById("btn-locate");
+  btn.classList.add("locating");
+  btn.textContent="📍 定位中...";
+  navigator.geolocation.getCurrentPosition(pos=>{
+    startLocate(pos);
+    btn.classList.remove("locating");
+    btn.classList.add("active");
+    btn.textContent="📍 已定位 · 点击关闭";
+  },err=>{
+    btn.classList.remove("locating");
+    let msg="无法获取位置";
+    if(err.code===1)msg="请允许位置权限";
+    else if(err.code===2)msg="位置信息不可用";
+    else if(err.code===3)msg="定位超时";
+    toast(msg,true);
+  },{enableHighAccuracy:true,timeout:10000});
+}
+
+function startLocate(pos){
+  if(!map||!window.L)return;
+  locateActive=true;
+  const lat=pos.coords.latitude,lng=pos.coords.longitude;
+  if(userMarker){map.removeLayer(userMarker)}
+  userMarker=L.marker([lat,lng],{icon:userIcon}).addTo(map)
+    .bindPopup("<b>你在这里</b>").openPopup();
+  map.setView([lat,lng],16);
+
+  // Watch position
+  watchId=navigator.geolocation.watchPosition(p=>{
+    const la=p.coords.latitude,ln=p.coords.longitude;
+    if(userMarker)userMarker.setLatLng([la,ln]);
+  },()=>{},{
+    enableHighAccuracy:true,maximumAge:5000,timeout:15000
+  });
+}
+
+function stopLocate(){
+  locateActive=false;
+  if(watchId){navigator.geolocation.clearWatch(watchId);watchId=null}
+  if(userMarker&&map){map.removeLayer(userMarker);userMarker=null}
+  const btn=document.getElementById("btn-locate");
+  btn.classList.remove("active","locating");
+  btn.textContent="📍 显示我的位置";
+  toast("已关闭定位");
+}
+
+// Init map on load (dynamic load Leaflet to not block page)
+let leafletReady=false;
+function loadLeaflet(cb){
+  if(window.L){cb();return}
+  var s=document.createElement("script");
+  s.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+  s.onload=function(){
+    var css=document.createElement("link");
+    css.rel="stylesheet";css.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(css);
+    leafletReady=true;cb();
+  };
+  s.onerror=function(){
+    // fallback to cdnjs
+    var s2=document.createElement("script");
+    s2.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+    s2.onload=function(){
+      var css=document.createElement("link");
+      css.rel="stylesheet";css.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+      document.head.appendChild(css);
+      leafletReady=true;cb();
+    };
+    s2.onerror=function(){console.warn("Leaflet failed to load, map disabled")};
+    document.head.appendChild(s2);
+  };
+  document.head.appendChild(s);
+}
+window.addEventListener("load",function(){setTimeout(function(){loadLeaflet(initMap)},500)});
+
+// ==================== Init ====================
+async function init(){
+  document.getElementById("mode-ui").textContent="⏳ 连接服务器...";
+  document.getElementById("mode-ui").className="local";
+  await probeBackend();
+  loadProfiles();loadTribes();loadHangouts();loadSongs();
+  setInterval(()=>{loadProfiles();loadTribes();loadHangouts();loadSongs()},30000);
+}
+init();
+
+// Enter in song form
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="s-title")postSong()});
+</script>
+</body>
+</html>

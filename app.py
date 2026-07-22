@@ -10,6 +10,13 @@ from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
+# WSGI 兼容：PythonAnywhere 需要 application 变量
+application = app
+
+# 确保 data 目录存在（WSGI 模式下 __main__ 不执行）
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+os.makedirs(DATA_DIR, exist_ok=True)
+
 # CORS - 允许前端跨域访问
 @app.after_request
 def add_cors_headers(resp):
@@ -22,8 +29,6 @@ def add_cors_headers(resp):
 @app.route("/api/health")
 def health():
     return {"ok": True, "time": now_ts()}
-
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 PROFILES_FILE = os.path.join(DATA_DIR, "profiles.json")
 TRIBES_FILE = os.path.join(DATA_DIR, "tribes.json")
@@ -268,6 +273,5 @@ def index():
 
 
 if __name__ == "__main__":
-    os.makedirs(DATA_DIR, exist_ok=True)
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)

@@ -23,7 +23,14 @@
       "time": "7-22 22:36"
     }
   ],
-  "tribes": {},
+  "tribes": {
+    "崔健": {
+      "members": [
+        "刘润芝"
+      ],
+      "count": 1
+    }
+  },
   "hangouts": [],
   "songs": []
 }

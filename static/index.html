@@ -435,19 +435,17 @@ function nowStr(){const d=new Date();const p=n=>String(n).padStart(2,"0");return
 
 // 探测后端是否可达
 async function probeBackend(){
-  if(!API_BASE)return;
   try{
-    const r=await fetch(API_BASE+"/api/health",{signal:AbortSignal.timeout(3000)});
+    const r=await fetch((API_BASE||"")+"/api/health",{signal:AbortSignal.timeout(3000)});
     if(r.ok){setMode(true);return true}
   }catch(e){}
   setMode(false);return false;
 }
 
 async function call(url,method,body){
-  if(!API_BASE){setMode(false);throw new Error("no backend")}
   try{
     const o={headers:{"Content-Type":"application/json"}};if(method)o.method=method;if(body)o.body=JSON.stringify(body);
-    const r=await fetch(API_BASE+url,o);if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||"error")}
+    const r=await fetch((API_BASE||"")+url,o);if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error||"error")}
     return await r.json();
   }catch(e){if(e.message.includes("Failed to fetch")||e.message.includes("NetworkError")){setMode(false)}throw e}
 }
